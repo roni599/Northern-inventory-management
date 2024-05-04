@@ -1,0 +1,113 @@
+
+body{
+  
+}
+.pro-card{
+
+    text-align: center;
+
+}
+
+.pro-card .pro-img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 5px solid rgb(170, 50, 230);
+    outline: 5px solid rgba(226, 208, 235, 0.411);
+
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: -80px;
+}
+
+.pro-card .pro-img img{
+    width: 200px;
+}
+
+.top-segment{
+    width: 100%;
+    height: 200px;
+    background-color: rgb(236, 229, 243);
+    background-image: url('/User/assets/img/w-1.jpeg');
+    background-size: 100% auto;
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+.right-box{
+    display: flex;
+    height: 62vh;
+}
+
+.right-box .left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+}
+
+.right-box .right{
+    width: 35%;
+    padding: 0px 10px;
+    padding-left: 20px;
+    padding-top: 40px;
+
+}
+
+.right-box .left img{
+    width: 100%;
+
+}
+.shadow{
+    margin-top: -200px;
+}
+
+.right-box .left h3{
+    padding: 20px;
+    background-color: rgb(236, 229, 243);
+    border-radius: 8px;
+}
+
+.right-box .right .custom-options{
+    padding: 20px;
+    border-radius: 7px;
+    color: white;
+    transition: 0.5s;
+}
+.right-box .right .custom-options:hover{
+    transform: translateY(-4px);
+}
+.custom-color1{
+    background:  linear-gradient(45deg,#7f00ff, #e100ff);
+    
+}
+.custom-color2{
+    background:  linear-gradient(45deg,#fc4a1a,#f7b733);
+    
+}
+.right-box .right .custom-options h4{
+
+    color: white;
+}
+.right-box .right .custom-options .icons{
+
+}
+.right-box .right .custom-options .icons .bx{
+
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+
+
+
+.main-left{
+    height: 93vh;
+}
+
+.main-left .main-card{
+    height: 100%;
+}
