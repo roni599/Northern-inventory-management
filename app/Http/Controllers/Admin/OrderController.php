@@ -289,11 +289,14 @@ class OrderController extends Controller
         } else {
             $newQuantity = $sum - $request->quantity;
 
-            if ($pend > 1 && $app == 0) {
+            if ($pend < 1 && $app == 0) {
+                // return ['pending', $pend, $app, $rej];
                 $billUpdate->status = 1;
-            } elseif ($pend <= 1 && $app >= 1) {
+            } elseif ($pend <= 1 && ($app >= 1 || $app >= 0)) {
+                // return ['approved', $pend, $app, $rej];
                 $billUpdate->status = 2;
             } elseif ($pend <= 1 && $app == 0) {
+                // return ['rejected', $pend, $app, $rej];
                 $billUpdate->status = 3;
             }
 
@@ -332,11 +335,14 @@ class OrderController extends Controller
                 $rej++;
             }
         }
-        if ($pend > 1 && $app == 0) {
+        if ($pend < 1 && $app == 0) {
+            // return ['pending', $pend, $app, $rej];
             $billUpdate->status = 1;
-        } elseif ($pend <= 1 && $app >= 1) {
+        } elseif ($pend <= 1 && ($app >= 1)) {
+            // return ['rejectButton', $pend, $app, $rej];
             $billUpdate->status = 2;
         } elseif ($pend <= 1 && $app == 0) {
+            // return ['rejected', $pend, $app, $rej];
             $billUpdate->status = 3;
         }
         $order->status = 2;
