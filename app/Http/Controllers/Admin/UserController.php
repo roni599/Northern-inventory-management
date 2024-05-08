@@ -26,7 +26,7 @@ class UserController extends Controller
         $user_id = Session::get('loginIdAdmin');
         $user = User::where('id', $user_id)->first();
         
-        $users = User::latest()->paginate();
+        $users = User::latest()->paginate(50);
         $roles = Role::all();
         $organizations = Organization::all();
         return view('Admin.pages.userlist', compact('users', 'roles', 'organizations','data','user'));

@@ -6,7 +6,6 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
 
-
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Order /</span> Order List</h4>
 
             <div class="d-flex mb-3 gap-2">
@@ -43,47 +42,44 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+
                         <tbody class="table-border-bottom-0">
                             @foreach ($bills as $key => $bill)
-                            @if ($bill->assign_for>='0')
+                                @if ($bill->assign_for >= '0')
                                     <tr>
                                         <td>{{ $bill->id }}</td>
-                                        <td>{{ $bill->user->full_name }}</td>
-                                        @if($bill->user_id==2 )
-                                        <td>Staff</td>
-                                        @elseif ($bill->user_id==3)
-                                        <td>Faculty</td>
-                                        @elseif ($bill->user_id==4)
-                                        <td>Employee</td>
-                                        @elseif ($bill->user_id==4)
-                                        <td>Management</td>
-                                        {{-- <td>{{ $bill->user->role->role_name }}</td> --}}
-                                        {{-- @else
-                                        <td>Employee/Management/Faculty</td> --}}
-                                        @endif
-                                        @if($bill->assign_for==1)
-                                        <td>Admin</td>
+                                        @if ($bill->user_id !== null)
+                                            <td>{{ $bill->user->full_name }}</td>
                                         @else
-                                        <td>User Myself</td>
+                                            <td>User Deleted</td>
+                                        @endif
+                                        <td>{{ $bill->user->role->role_name }}</td>
+                                        @if ($bill->assign_for == 1)
+                                            <td>Admin</td>
+                                        @else
+                                            <td>User Myself</td>
                                         @endif
                                         <td>
-                                            Date: {{ $bill->created_at->format('Y-m-d') }}<br>
-                                            Time: {{ date('h:i:s A', strtotime($bill->created_at)) }}
+                                            Date:
+                                            {{ \Carbon\Carbon::parse($bill->created_at)->timezone('Asia/Dhaka')->format('Y-m-d') }}<br>
+                                            Time:
+                                            {{ \Carbon\Carbon::parse($bill->created_at)->timezone('Asia/Dhaka')->format('h:i:s A') }}
                                         </td>
-                                        @if ($bill->status === '1')
+                                        @if ($bill->status == 1)
                                             <td class="text-danger">Pendding</td>
-                                        @elseif ($bill->status === '2')
+                                        @elseif ($bill->status == 2)
                                             <td class="text-success">Approved</td>
-                                        @elseif($bill->status === '3')
+                                        @elseif($bill->status == 3)
                                             <td class="text-warning">Rejected</td>
                                         @endif
-                                        <td class="d-flex">
-                                            <a href="{{ route('orders.details', ['orderId' => $bill->id]) }}"><i
-                                                    class="bx bxs-show me-1 bg-warning p-2 rounded-2 text-white"></i></a>
-                                            {{-- <a href="#"><i class="bx bx-edit-alt me-1 bg-success p-2 rounded-2 text-white"></i></a> --}}
-                                            {{-- <a href="#"><i
-                                                    class="bx bx-trash me-1 bg-danger p-2 rounded-2 text-white"></i></a> --}}
-                                        </td>
+                                        @if ($bill->user_id !== null)
+                                            <td class="d-flex">
+                                                <a href="{{ route('orders.details', ['orderId' => $bill->id]) }}"><i
+                                                class="bx bxs-show me-1 bg-warning p-2 rounded-2 text-white"></i></a>
+                                            </td>
+                                        @else
+                                            <td>You have no action</td>
+                                        @endif
                                     </tr>
                                 @endif
                             @endforeach

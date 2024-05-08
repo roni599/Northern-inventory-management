@@ -18,8 +18,8 @@
                     <br>
                     <span class="d-block fs-5">Orderer Name: {{ $bill[0]->user->full_name }}</span>
                     <span class="d-block fs-5">Designation: {{ $bill[0]->user->role->role_name }}</span>
-                    <span class="d-block fs-5">Order Date: {{ $bill[0]->created_at->addDay()->format('Y-m-d') }}<br>
-                        <span class="d-block fs-5">Order Time: {{ $bill[0]->created_at->format('h:i:s A') }}</span>
+                    <span class="d-block fs-5">Order Date: {{ $bill[0]->created_at->addDay()->setTimezone('Asia/Dhaka')->format('Y-m-d') }}<br>
+                      <span class="d-block fs-5">Order Time: {{ $bill[0]->created_at->setTimezone('Asia/Dhaka')->format('h:i:s A') }}</span>                      
                 @endif
                 <br>
                 @foreach ($orders as $key => $order)

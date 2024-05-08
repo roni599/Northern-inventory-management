@@ -97,7 +97,7 @@
                         </div>
                         <span class="mb-4">This Product For :
                             {{-- {{ $order->product->role->role_name }} --}}
-                            @if ($order->product->role_id ==1)
+                            @if ($order->product->role_id == 1)
                                 staff
                             @else
                                 employee/management/faculty

@@ -57,32 +57,43 @@ $(document).ready(function () {
             // If there is a matching option, select it
             selectedOption.prop('selected', true);
         }
-
-
-
-
         var image = $(this).data('image');
         $('#imagePathDisplay').text(image);
     });
 
 
 
+    // $(document).on('click', '#userTableDiv .pagination a', function (event) {
+    //     event.preventDefault();
+    //     var baseUrl = window.location.href.split('?')[0];
+    //     var url = $(this).attr('href');
+    //     $.ajax({
+    //         url: baseUrl,
+    //         data: { page: url.split('=')[1] },
+    //         success: function (data) {
+    //             $('#categoryTableDiv').html($(data).find('#categoryTableDiv').html());
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error(xhr.responseText);
+    //         }
+    //     });
+    // });
     $(document).on('click', '#userTableDiv .pagination a', function (event) {
         event.preventDefault();
-        var baseUrl = window.location.href.split('?')[0];
+        
         var url = $(this).attr('href');
+        console.log(url);
         $.ajax({
-            url: baseUrl,
-            data: { page: url.split('=')[1] },
+            url: url,
             success: function (data) {
-                $('#categoryTableDiv').html($(data).find('#categoryTableDiv').html());
+                console.log(data);
+                $('#userTableDiv').html($(data).find('#userTableDiv').html());
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
     });
-
     $(document).on('submit', '#userUpdate', function (event) {
         event.preventDefault();
 

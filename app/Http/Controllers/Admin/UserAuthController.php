@@ -74,7 +74,7 @@ class UserAuthController extends Controller
         $user = User::where('id', $user_id)->first();
 
         $check = Bill::where('user_id', $user_id)->where('status', 0)->get();
-        
+
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
@@ -99,7 +99,7 @@ class UserAuthController extends Controller
                 $category = Product::where('category_id', '=', 2)->get();
                 return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
             } else {
-               
+
                 $category = Product::where('category_id', '=', 1)->get();
                 return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
             }
@@ -147,6 +147,20 @@ class UserAuthController extends Controller
         $user_id = Session::get('loginId');
         $user = User::where('id', $user_id)->first();
         $bill_name = Session::get('uuid');
+
+        $product = Product::where('id', $request->productname)->first();
+
+        // if ($product->product_name) {
+        //     if ($product->quantity >= $request->quantity) {
+        //         dd('ol');
+        //     } else {
+        //         dd('Product quantity is less than required quantity');
+        //     }
+        // } else {
+        //     dd('Product not found');
+        // }
+
+
         $order = new Order();
         $order->product_id = $request->productname;
         $order->quantity = $request->quantity;
@@ -205,11 +219,14 @@ class UserAuthController extends Controller
     }
     public function complete_order(Request $request)
     {
-        $request->validate([
-            'textarea' => 'required|string',
-        ]);
-        
-        
+        // $request->validate([
+        //     'textarea' => 'required|string',
+        // ]);
+
+        // if ($request->has('textarea') && empty($request->textarea)) {
+        //     Alert::error('Please add then press complete order.');
+        //     return redirect()->back();
+        // }
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
@@ -218,17 +235,21 @@ class UserAuthController extends Controller
         $user = User::where('id', $user_id)->first();
 
         $bilId = Session::get('uuid');
-        $order = Order::where('bill_id', '=', $bilId)->first(); 
+        $order = Order::where('bill_id', '=', $bilId)->first();
+        if (!$order || !$order->bill_id) {
+            Alert::error('Please add then press complete order.');
+            return redirect()->back();
+        }
 
         $bill = Bill::find($bilId);
         $bill->user_id = $user_id;
-        $bill->assign_for =$user_id;
+        $bill->assign_for = $user_id;
         $bill->status = 1;
-        $order->comments=$request->textarea;
+        $order->comments = $request->textarea;
         $order->save();
         $bill->save();
         Session::pull('uuid');
-        
+
         Alert::success('Thank You', 'Your products are ordered successfully');
         return redirect()->route('user.dashbord');
         // return view('User.pages.complete_order', compact('data', 'user'));
@@ -247,6 +268,7 @@ class UserAuthController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         $orderId = $request->input('orderId');
+
         // $orders = Order::where('bill_id', '=', $orderId)->get();
         // $bill=Bill::where('id','=',$orderId)->get();
         return view('User.pages.orderlist', compact('data', 'user', 'bills'));

@@ -107,7 +107,7 @@ class OrderController extends Controller
 
     public function Order_add(Request $request)
     {
-        // dd($request->all());
+
         $request->validate([
             'productname' => 'required',
             'quantity' => 'required|string',
@@ -140,60 +140,11 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order deleted successfully.');
     }
 
-    // public function complete_Order(Request $request)
-    // {
 
-    //     $request->validate([
-    //         'textarea' => 'required|string',
-    //         'assinfor' => 'required|numeric|max:255'
-    //     ],
-    //     [
-    //         'assinfor.required' => 'Please select a user.',
-    //         'assinfor.exists' => 'The selected user does not exist.',
-    //     ]);
-    //     $assinfor=$request->assinfor;
-    //     if (Session::has('loginIdAdmin')) {
-    //         $data = User::where('id', '=', Session::get('loginIdAdmin'))->first();
-    //     }
-    //     $user_id = Session::get('loginIdAdmin');
-    //     $user = User::where('id', $user_id)->first();
-
-    //     $bilId = Session::get('uuid');
-    //     $order = Order::where('bill_id', '=', $bilId)->first();
-
-    //     $bill = Bill::find($bilId);
-    //     // $bill->status = $request->input('assinfor');
-    //     // $bill->status = 1;
-    //     // $bill->user_id = $user_id;
-    //     $bill->assign_for =$user_id;
-    //     $bill->status = 1;
-
-
-
-
-    //     $bill->user_id = $request->input('assinfor');
-    //     // $bill->comments = $request->textarea;
-    //     $order->comments=$request->textarea;
-    //     $order->save();
-    //     $bill->save();
-    //     Session::pull('uuid');
-
-    //     // $bilId = Session::get('uuid');
-    //     // $bill = Bill::find($bilId);
-    //     // // $bill->user_id = $request->assinfor;
-    //     // $bill->status =1;
-    //     // $bill->save();
-    //     // Session::pull('uuid');
-    //     // // Alert::success('Product Added Successfully', 'we have added your product successfully');
-    //     Alert::success('Product Added Successfully', 'we have added your product successfully');
-    //     return redirect()->route('admin.dashbord');
-    //     // return redirect('/orders');
-    // }
 
     public function complete_Order(Request $request)
     {
         $request->validate([
-            'textarea' => 'required|string',
             'assinfor' => 'required'
         ], [
             'assinfor.required' => 'Please select a user.',
@@ -202,147 +153,39 @@ class OrderController extends Controller
 
         $user_id = Session::get('loginIdAdmin');
         $ass = $request->assinfor;
+
+        $assign_role = User::where('id', $ass)->first();
+        $assign_role_id = $assign_role->role->id;
+
         $pos_id = $request->pos_value;
-        // foreach ($pos_id as $value) {
-        //     if ($value == 1) {
-        //         $hasOnes = true;
-        //     } else {
-        //         $hastwo = true;
-        //     }
-        // }
-        // $hasOnes = false;
-        // $hasTwos = false;
-        // $hasThrees = false;
-        // $hasFours = false;
-        // $hasFive = false;
-        // $otherThanOnes = false;
-
-        // foreach ($pos_id as $value) {
-        //     if ($value == 1) {
-        //         $hasOnes = true;
-        //     }
-        //     if ($value == 2) {
-        //         $hasTwos = true;
-        //     }
-        //     if ($value == 3) {
-        //         $hasThrees = true;
-        //     }
-        //     if ($value == 4) {
-        //         $hasFours = true;
-        //     }
-        //     if ($value == 5) {
-        //         $hasFive = true;
-        //     }
-        //     if ($value != 1) {
-        //         $otherThanOnes = true;
-        //     }
-        // }
-
-        // if ($hasOnes && !$hasTwos && !$hasThrees && !$hasFours &&  $ass == 2) {
-        //     //dd('staff because all value is one and staff value is two');
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } elseif ($hasOnes && $otherThanOnes && $ass != 2) {
-        //     //dd('Not allowed');
-        //     Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
-        //     return redirect()->back();
-        // } elseif ($hasTwos && $ass == 3) {
-        //     //dd('faculty because no staff or empoly or management product is not assign');
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } elseif ($hasThrees && $ass == 4) {
-        //     //dd('empoly because no staff or faculty or management product is not assign');
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } elseif ($hasFours &&  $ass == 5) {
-        //     //dd('management because no staff or empoly or faculty product is not assign');
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } else {
-        //     //dd('your add order data contain staff product or you want to store product for staff that product doesn\'t alowed for staff');
-        //     Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
-        //     return redirect()->back();
-        // }
-
-
-
-
 
         $hasOnes = false;
         $hasTwos = false;
         $otherThanOnes = false;
+        $billId = Session::get('uuid');
 
-        foreach ($pos_id as $value) {
-            if ($value == 1) {
-                $hasOnes = true;
-            }
-            if ($value == 2) {
-                $hasTwos = true;
-            }
-            if ($value != 1) {
-                $otherThanOnes = true;
+        $bill = Bill::find($billId);
+        $order = Order::where('bill_id', '=', $billId)->first();
+
+        if (!$order || !$order->bill_id) {
+            Alert::error('Please add then press complete order.');
+            return redirect()->back();
+        } else {
+            foreach ($pos_id as $value) {
+                if ($value == 1) {
+                    $hasOnes = true;
+                }
+                if ($value == 2) {
+                    $hasTwos = true;
+                }
+                if ($value != 1) {
+                    $otherThanOnes = true;
+                }
             }
         }
 
-        if ($hasOnes && !$hasTwos && $ass == 2) {
-            //dd('staff because all value is one and staff value is two');
-            $billId = Session::get('uuid');
-            $order = Order::where('bill_id', '=', $billId)->first();
-            $bill = Bill::find($billId);
-
+        if ($hasOnes && !$hasTwos && $assign_role_id == 1) {
+            // dd('staff because all value is one and staff value is two');
             $bill->assign_for = $user_id;
             $bill->status = 1;
 
@@ -355,14 +198,18 @@ class OrderController extends Controller
 
             Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
             return redirect()->route('admin.dashbord');
-        } elseif ($hasOnes && $otherThanOnes && $ass != 2) {
-            // dd('at lest one value is 1 and staff value is not 2');
+        } elseif ($hasOnes && $otherThanOnes && $assign_role_id != 1) {
+            //dd('at lest one value is 1 and staff value is not 1');
             Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
             return redirect()->back();
-        } elseif (!$hasOnes && ($ass == 3 || $ass == 4 || $ass == 5)) {
-            //dd('1 value is none and ass value 3 or 4');
+        } elseif (!$hasOnes && ($assign_role_id == 2 || $assign_role_id == 3 || $assign_role_id == 4 || $assign_role_id == 5)) {
+            //dd('1 value is none and ass value 2 or 3 or 4');
             $billId = Session::get('uuid');
             $order = Order::where('bill_id', '=', $billId)->first();
+            if (!$order || !$order->bill_id) {
+                Alert::error('Please add then press complete order.');
+                return redirect()->back();
+            }
             $bill = Bill::find($billId);
 
             $bill->assign_for = $user_id;
@@ -378,121 +225,10 @@ class OrderController extends Controller
             Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
             return redirect()->route('admin.dashbord');
         } else {
-            //dd('your add order data contain staff product or you want to store product for staff that product doesn\'t alowed for staff');
+            dd('your add order data contain staff product or you want to store product for staff that product doesn\'t alowed for staff');
             Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
             return redirect()->back();
         }
-
-
-
-
-
-
-
-
-
-        // if ($hasOnes   && $ass == 2) {
-        //     dd('okeyone');
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } elseif ($hastwo && ($ass == 3 || $ass == 4)) {
-        //     dd("okeytwo");
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } else {
-        //     dd('not alowed');
-        //     Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
-        //     return redirect()->back();
-        // }
-        // dd('not allowed');
-        // $roleId = Product::where('role_id', $ass)->value('role_id');
-
-        // if ($pos_id == 1 && $ass == 2) {
-
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // }
-        // if ($pos_id != 1  && $ass >= 3) {
-        //     $billId = Session::get('uuid');
-        //     $order = Order::where('bill_id', '=', $billId)->first();
-        //     $bill = Bill::find($billId);
-
-        //     $bill->assign_for = $user_id;
-        //     $bill->status = 1;
-
-        //     $bill->user_id = $ass;
-        //     $order->comments = $request->textarea;
-
-        //     $order->save();
-        //     $bill->save();
-        //     Session::pull('uuid');
-
-        //     Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        //     return redirect()->route('admin.dashbord');
-        // } else {
-        //     Alert::error('Product Assignment Error', 'You are not allowed to assign this product to the selected user.');
-        //     return redirect()->back();
-        // }
-
-
-        // $billId = Session::get('uuid');
-        // $order = Order::where('bill_id', '=', $billId)->first();
-        // $bill = Bill::find($billId);
-
-        // $bill->assign_for = $user_id;
-        // $bill->status = 1;
-
-        // $bill->user_id = $ass;
-        // $order->comments = $request->textarea;
-
-        // $order->save();
-        // $bill->save();
-        // Session::pull('uuid');
-
-        // Alert::success('Product Added Successfully', 'The product has been successfully assigned.');
-        // return redirect()->route('admin.dashbord');
     }
 
 
@@ -536,37 +272,44 @@ class OrderController extends Controller
 
 
         $order2 = Order::where('bill_id', $bil_id)->get();
-
-        $pendingCount = $order2->where('status', 0)->count();
-
+        $app = 0;
+        $rej = 0;
+        $pend = 0;
+        foreach ($order2 as $value) {
+            if ($value->status == 0) {
+                $pend++;
+            } elseif ($value->status == 1) {
+                $app++;
+            } elseif ($value->status == 2) {
+                $rej++;
+            }
+        }
         if ($request->quantity >= $sum) {
             return response()->json(['message' => 'Stock out']);
         } else {
             $newQuantity = $sum - $request->quantity;
 
+            if ($pend > 1 && $app == 0) {
+                $billUpdate->status = 1;
+            } elseif ($pend <= 1 && $app >= 1) {
+                $billUpdate->status = 2;
+            } elseif ($pend <= 1 && $app == 0) {
+                $billUpdate->status = 3;
+            }
+
             $order->status = 1;
             $order->quantity = $request->quantity;
             $order->save();
 
-            if ($pendingCount <= 1) {
-                $billUpdate->status = 2;
-                $billUpdate->save();
-            } else {
-                $billUpdate->status = 1;
-                $billUpdate->save();
-            }
+
             $productId->quantity = $newQuantity;
             $productId->save();
 
-            // $billUpdate->status = 2;
             $billUpdate->touch();
-            // $billUpdate->save();
 
             return response()->json(['message' => 'Success']);
-            // return redirect()->back();
             return redirect()->to(URL::previous());
         }
-
         return redirect()->back();
     }
 
@@ -577,28 +320,32 @@ class OrderController extends Controller
         $billUpdate = Bill::find($bil_id);
 
         $order2 = Order::where('bill_id', $bil_id)->get();
-
-        $pendingCount = $order2->where('status', 0)->count();
+        $app = 0;
+        $rej = 0;
+        $pend = 0;
+        foreach ($order2 as $value) {
+            if ($value->status == 0) {
+                $pend++;
+            } elseif ($value->status == 1) {
+                $app++;
+            } elseif ($value->status == 2) {
+                $rej++;
+            }
+        }
+        if ($pend > 1 && $app == 0) {
+            $billUpdate->status = 1;
+        } elseif ($pend <= 1 && $app >= 1) {
+            $billUpdate->status = 2;
+        } elseif ($pend <= 1 && $app == 0) {
+            $billUpdate->status = 3;
+        }
         $order->status = 2;
 
-        // $order->quantity=$request->quantity;
         $order->touch();
         $order->save();
 
-
-        if ($pendingCount <= 1) {
-            $billUpdate->status = 3;
-            $billUpdate->save();
-        } else {
-            $billUpdate->status = 1;
-            $billUpdate->save();
-        }
-
-        // $billUpdate->status = 3;
         $billUpdate->touch();
-        // $billUpdate->save();
         return response()->json(['message' => 'Success']);
-        // return redirect()->back();
         return redirect()->to(URL::previous());
     }
 

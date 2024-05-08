@@ -54,7 +54,20 @@ class OrderreportController extends Controller
             $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
         } else {
             foreach ($data as $order) {
-                $statusText = $order->status === '1' ? 'Approved' : ($order->status === '0' ? 'Pending' : 'Reject');
+                $statusText = '';
+                $badgeClass = '';
+            
+                if ($order->status === '1') {
+                    $statusText = 'Approved';
+                    $badgeClass = 'bg-label-success';
+                } elseif ($order->status === '2') {
+                    $statusText = 'Rejected';
+                    $badgeClass = 'bg-label-danger';
+                } else {
+                    $statusText = 'Pending';
+                    $badgeClass = 'bg-label-warning'; // Adjust class for pending status
+                }
+            
                 $tableHtml .= '<tr>';
                 $tableHtml .= '<td>' . $order->bill_id . '</td>';
                 $tableHtml .= '<td>' . $order->product->product_name . '</td>';
@@ -62,9 +75,11 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
                 $tableHtml .= '<td>' . $order->created_at . '</td>';
                 $tableHtml .= '<td>' . $order->quantity . '</td>';
-                $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
                 $tableHtml .= '</tr>';
             }
+            
+            
         }
 
         $tableHtml .= '</tbody>';
@@ -94,7 +109,6 @@ class OrderreportController extends Controller
                 'organizations.*'
             )
             ->get();
-
         $tableHtml = '<table class="table" id="reportTable">';
         $tableHtml .= '<thead>';
         $tableHtml .= '<tr>';
@@ -111,8 +125,33 @@ class OrderreportController extends Controller
         if (count($user) == 0) {
             $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
         } else {
+            // foreach ($user as $order) {
+            //     $statusText = $order->orders_status === '1' ? 'Approved' : ($order->orders_status == 0 ? 'Pending' : 'Reject');
+            //     $tableHtml .= '<tr>';
+            //     $tableHtml .= '<td>' . $order->bill_id . '</td>';
+            //     $tableHtml .= '<td>' . $order->product_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->full_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->role_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->order_created_at . '</td>';
+            //     $tableHtml .= '<td>' . $order->order_quantity  . '</td>';
+            //     $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+            //     $tableHtml .= '</tr>';
+            // }
             foreach ($user as $order) {
-                $statusText = $order->orders_status === '1' ? 'Approved' : ($order->orders_status == 0 ? 'Pending' : 'Reject');
+                $statusText = '';
+                $badgeClass = '';
+
+                if ($order->orders_status === '1') {
+                    $statusText = 'Approved';
+                    $badgeClass = 'bg-label-success';
+                } elseif ($order->orders_status === '0') {
+                    $statusText = 'Pending';
+                    $badgeClass = 'bg-label-success';
+                } else {
+                    $statusText = 'Reject';
+                    $badgeClass = 'bg-label-danger';
+                }
+
                 $tableHtml .= '<tr>';
                 $tableHtml .= '<td>' . $order->bill_id . '</td>';
                 $tableHtml .= '<td>' . $order->product_name . '</td>';
@@ -120,7 +159,7 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->role_name . '</td>';
                 $tableHtml .= '<td>' . $order->order_created_at . '</td>';
                 $tableHtml .= '<td>' . $order->order_quantity  . '</td>';
-                $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
                 $tableHtml .= '</tr>';
             }
         }
@@ -139,7 +178,7 @@ class OrderreportController extends Controller
             ->join('roles', 'users.role_id', '=', 'roles.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->where('categories.id', $userId)
-            ->select('orders.*', 'bills.status as bill_status', 'products.*', 'users.*', 'roles.*', 'orders.created_at', 'categories.*', 'orders.created_at')
+            ->select('orders.*', 'bills.status as bill_status', 'products.*', 'users.*', 'roles.*','orders.quantity', 'orders.created_at', 'categories.*', 'orders.created_at')
             ->get();
 
 
@@ -161,15 +200,22 @@ class OrderreportController extends Controller
             $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
         } else {
             foreach ($user as $order) {
+                // Determine the status text
                 $statusText = $order->orders_status === '1' ? 'Approved' : ($order->orders_status === '0' ? 'Pending' : 'Reject');
+
+                // Determine the badge class based on the status text
+                $badgeClass = ($statusText === 'Approved' || $statusText === 'Pending') ? 'bg-label-success' : 'bg-label-danger';
+
+                // Build the table row HTML
                 $tableHtml .= '<tr>';
                 $tableHtml .= '<td>' . $order->bill_id . '</td>';
                 $tableHtml .= '<td>' . $order->product->product_name . '</td>';
                 $tableHtml .= '<td>' . $order->product->role->user->full_name .  '</td>';
                 $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
                 $tableHtml .= '<td>' . $order->created_at . '</td>';
-                $tableHtml .= '<td>' . $order['quantity'] . '</td>';
-                $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+                $tableHtml .= '<td>' . $order->order->orders_quantity . '</td>';
+                // Use the determined badge class
+                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
                 $tableHtml .= '</tr>';
             }
         }
@@ -221,7 +267,23 @@ class OrderreportController extends Controller
             $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
         } else {
             foreach ($user as $order) {
-                $statusText = $order->orders_status === '1' ? 'Approved' : ($order->orders_status === '0' ? 'Pending' : 'Reject');
+                $statusText = '';
+                $badgeClass = '';
+
+                if ($order->order->orders_status === '1') {
+                    $statusText = 'Approved';
+                    $badgeClass = 'bg-label-success';
+                } elseif ($order->order->orders_status === '0') {
+                    $statusText = 'Pending';
+                    $badgeClass = 'bg-label-success';
+                } elseif ($order->order->orders_status === '2') {
+                    $statusText = 'Rejected';
+                    $badgeClass = 'bg-label-danger';
+                } else {
+                    $statusText = 'Unknown'; // Handle any other unexpected values
+                    $badgeClass = 'bg-label-default'; // You can set a default class here
+                }
+
                 $tableHtml .= '<tr>';
                 $tableHtml .= '<td>' . $order->bill_id . '</td>';
                 $tableHtml .= '<td>' . $order->product_name . '</td>';
@@ -229,7 +291,7 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->role_name . '</td>';
                 $tableHtml .= '<td>' . $order->order_created_at . '</td>';
                 $tableHtml .= '<td>' . $order->order_quantity . '</td>';
-                $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
                 $tableHtml .= '</tr>';
             }
         }

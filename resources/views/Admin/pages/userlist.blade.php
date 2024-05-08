@@ -41,7 +41,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($users as $key => $userr)
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $userr->id }}</td>
                                     <td>{{ $userr->full_name }}</td>
                                     <td>
                                         @if ($userr->role_id === null)
@@ -95,6 +95,7 @@
                     </table>
                     <span class="p-4 d-flex gap-3">
                         {!! $users->withQueryString()->links('pagination::bootstrap-5') !!}
+                        {{-- {!! $users->links('pagination::bootstrap-5') !!} --}}
                     </span>
                 </div>
             </div>
