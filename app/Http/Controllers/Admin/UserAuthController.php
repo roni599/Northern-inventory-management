@@ -82,43 +82,105 @@ class UserAuthController extends Controller
 
         if ($check->isEmpty()) {
 
+
             $uuid1 = Uuid::uuid4()->toString();
             $uuid = implode('', array_slice(str_split($uuid1), 0, 8));
+            if ($user->role->id === 1) {
+                $role_id = '1';
+            } else {
+                $role_id = '2';
+            }
             Session::put('uuid', $uuid);
             $bill = new Bill();
             $bill->id = $uuid;
             $bill->user_id = $user_id;
-
             $bill->save();
 
-            $products = Product::where('role_id', '=', $user->role_id)->get();
+            $products = Product::where('role_id', '=', $role_id)->get();
             $orders = Order::where('bill_id', $uuid)->get();
 
-
             if ($user->role->permissions === '2' || $user->role->permissions === '3') {
-                $category = Product::where('category_id', '=', 2)->get();
-                return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+                $category_id = 2;
             } else {
-
-                $category = Product::where('category_id', '=', 1)->get();
-                return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+                $category_id = 1;
             }
+
+            $category = Product::where('category_id', '=', $category_id)->get();
+
+            return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+
+
+            // $uuid1 = Uuid::uuid4()->toString();
+            // $uuid = implode('', array_slice(str_split($uuid1), 0, 8));
+            // Session::put('uuid', $uuid);
+            // $bill = new Bill();
+            // $bill->id = $uuid;
+            // $bill->user_id = $user_id;
+
+            // $bill->save();
+
+            // $products = Product::where('role_id', '=', $user->role_id)->get();
+            // $orders = Order::where('bill_id', $uuid)->get();
+
+
+            // if ($user->role->permissions === '2' || $user->role->permissions === '3' || $user->role->permissions === '4') {
+
+            //     $category = Product::where('category_id', '=', 2)->get();
+            //     return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+            // } else {
+            //     $category = Product::where('category_id', '=', 1)->get();
+            //     return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+            // }
         } else {
+
             $uuid = $check[0]->id;
             Session::put('uuid', $uuid);
 
-            $products = Product::where('role_id', '=', $user->role_id)->get();
+            if ($user->role_id === 1) {
+                $role_id = '1';
+            } else {
+                $role_id = '2';
+            }
+
+            $products = Product::where('role_id', '=', $role_id)->get();
             $orders = Order::where('bill_id', $uuid)->get();
 
-
             if ($user->role->permissions === '2' || $user->role->permissions === '3') {
-                $category = Product::where('category_id', '=', 2)->get();
-                return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+                $category_id = 2;
             } else {
-
-                $category = Product::where('category_id', '=', 1)->get();
-                return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+                $category_id = 1;
             }
+
+            $category = Product::where('category_id', '=', $category_id)->get();
+
+            return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+
+
+
+            // $uuid = $check[0]->id;
+            // Session::put('uuid', $uuid);
+            // if($user->role_id==='1'){
+            //     $products = Product::where('role_id', '=', '1')->get();
+            //     dd($products);
+            // }
+            // else{
+            //     $products = Product::where('role_id', '=', '2')->get();
+            //     dd($products);
+
+            // }
+            // // $products = Product::where('role_id', '=', $user->role_id)->get();
+            // // dd($products);
+            // $orders = Order::where('bill_id', $uuid)->get();
+
+
+            // if ($user->role->permissions === '2' || $user->role->permissions === '3') {
+            //     $category = Product::where('category_id', '=', 2)->get();
+            //     return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+            // } else {
+
+            //     $category = Product::where('category_id', '=', 1)->get();
+            //     return view('User.pages.place_order', compact('data', 'category', 'user', 'products', 'orders'))->with('uuid', $uuid);
+            // }
         }
         // $uuid = Session::get('uuid');
 
