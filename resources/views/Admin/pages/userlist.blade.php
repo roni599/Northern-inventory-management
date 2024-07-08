@@ -30,6 +30,7 @@
                                 <th>User ID</th>
                                 <th>Full Name</th>
                                 <th>Role</th>
+                                <th>Department</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Organization Name</th>
@@ -48,6 +49,13 @@
                                             No Role Assigned
                                         @else
                                             {{ $userr->role->role_name }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($userr->department_name===null)
+                                            No Department Assign
+                                        @else
+                                        {{ $userr->department_name }}
                                         @endif
                                     </td>
                                     <td>{{ $userr->email }}</td>
@@ -76,6 +84,7 @@
                                             data-email="{{ $userr->email }}" data-phone_number="{{ $userr->phone }}"
                                             data-address="{{ $userr->address }}" data-image="{{ $userr->profile_img }}"
                                             data-role_id="{{ $userr->role_id != null ? $userr->role->role_name : 'No Role Assigned' }}"
+                                            data-department_name="{{ $userr->department_name != null ? $userr->department_name : 'No Department Assigned' }}"
                                             data-organization_id="{{ $userr->organization_id != null ? $userr->organization->organization_name : 'No organization Assigned' }}">
                                             <i class="bx bx-edit-alt me-1 bg-success p-2 rounded-2 text-white"></i>
                                         </button>
@@ -131,6 +140,40 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                     <!-- Department Name -->
+                                    <div class="mb-3 col-md-6" id="department_field">
+                                        <label for="role" class="form-label">Department Name</label>
+                                        <select class="form-select department" id="department_name" name="department_name"
+                                            aria-label="Default select example" required>
+                                            <option selected>Select Department</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="LID">LID</option>
+                                            <option value="IT">IT</option>
+                                            <option value="Register Office">Register Office</option>
+                                            <option value="VC Office">VC Office</option>
+                                            <option value="Treasure Office">Treasure Office</option>
+                                            <option value="HRD">HRD</option>
+                                            <option value="ACAD">ACAD</option>
+                                            <option value="Exam">Exam</option>
+                                            <option value="FAD">FAD</option>
+                                            <option value="Maintenance">Maintenance</option>
+                                            <option value="AID">AID</option>
+                                            <option value="MPB">MPB</option>
+                                            <option value="PRD">PRD</option>
+                                            <option value="CPPC">CPPC</option>
+                                            <option value="CSE">CSE</option>
+                                            <option value="EEE">EEE</option>
+                                            <option value="Textile">Textile</option>
+                                            <option value="Mechanical">Mechanical</option>
+                                            <option value="Civil">Civil</option>
+                                            <option value="DBA">DBA</option>
+                                            <option value="Bangla">Bangla</option>
+                                            <option value="English">English</option>
+                                            <option value="Law">Law</option>
+                                            <option value="Pharmacy">Pharmacy</option>
+                                            <option value="Public Health">Public Health</option>
+                                        </select>
+                                    </div>
                                     <!-- Email -->
                                     <div class="mb-3 col-md-6">
                                         <label for="email" class="form-label">E-mail</label>
@@ -166,12 +209,13 @@
                                             placeholder="Address" />
                                     </div>
                                     <!-- Upload Image -->
-                                    <div id="imagePathDisplay"></div>
-                                    <div class="mb-3 col-md-6">
+                                    
+                                    <div class="mb-3 col-md-6 py-2">
+                                        <span id="imagePathDisplay"></span>
                                         <input class="form-control" type="file" id="image" name="newimage" />
                                     </div>
                                 </div>
-                                <div class="mt-3 mb-2">
+                                <div class="mb-2">
                                     <button type="submit" class="btn btn-primary me-2">Update User</button>
                                 </div>
                             </form>

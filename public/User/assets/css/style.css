@@ -111,3 +111,18 @@ body{
 .main-left .main-card{
     height: 100%;
 }
+
+
+@media only screen and (min-width: 200px) and (max-width: 768px) {
+  .right-box{
+    display: block;
+ }
+ .right-box .right{
+    width: 100%;
+     
+ }
+ .right-box .left {
+    text-align:center;
+
+}
+}

@@ -44,6 +44,7 @@ class OrderreportController extends Controller
         $tableHtml .= '<th>Product Name</th>';
         $tableHtml .= '<th>Orderer Name</th>';
         $tableHtml .= '<th>Designation</th>';
+        $tableHtml .= '<th>Department</th>';
         $tableHtml .= '<th>Order Date</th>';
         $tableHtml .= '<th>Quantity</th>';
         $tableHtml .= '<th>Status</th>';
@@ -53,33 +54,45 @@ class OrderreportController extends Controller
         if (count($data) == 0) {
             $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
         } else {
-            foreach ($data as $order) {
-                $statusText = '';
-                $badgeClass = '';
-            
-                if ($order->status === '1') {
-                    $statusText = 'Approved';
-                    $badgeClass = 'bg-label-success';
-                } elseif ($order->status === '2') {
-                    $statusText = 'Rejected';
-                    $badgeClass = 'bg-label-danger';
-                } else {
-                    $statusText = 'Pending';
-                    $badgeClass = 'bg-label-warning'; // Adjust class for pending status
-                }
-            
-                $tableHtml .= '<tr>';
-                $tableHtml .= '<td>' . $order->bill_id . '</td>';
-                $tableHtml .= '<td>' . $order->product->product_name . '</td>';
-                $tableHtml .= '<td>' . $order->product->role->user->full_name . '</td>';
-                $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
-                $tableHtml .= '<td>' . $order->created_at . '</td>';
-                $tableHtml .= '<td>' . $order->quantity . '</td>';
-                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
-                $tableHtml .= '</tr>';
-            }
-            
-            
+            // foreach ($data as $order) {
+            //     $statusText = $order->status === '1' ? 'Approved' : ($order->status === '0' ? 'Pending' : 'Reject');
+            //     $tableHtml .= '<tr>';
+            //     $tableHtml .= '<td>' . $order->bill_id . '</td>';
+            //     $tableHtml .= '<td>' . $order->product->product_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->product->role->user->full_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
+            //     $tableHtml .= '<td>' . $order->created_at . '</td>';
+            //     $tableHtml .= '<td>' . $order->quantity . '</td>';
+            //     $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+            //     $tableHtml .= '</tr>';
+            // }
+             foreach ($data as $order) {
+    $statusText = '';
+    $badgeClass = '';
+
+    if ($order->status === '1') {
+        $statusText = 'Approved';
+        $badgeClass = 'bg-label-success';
+    } elseif ($order->status === '2') {
+        $statusText = 'Rejected';
+        $badgeClass = 'bg-label-danger';
+    } else {
+        $statusText = 'Pending';
+        $badgeClass = 'bg-label-warning'; // Adjust class for pending status
+    }
+
+    $tableHtml .= '<tr>';
+    $tableHtml .= '<td>' . $order->bill_id . '</td>';
+    $tableHtml .= '<td>' . $order->product->product_name . '</td>';
+    $tableHtml .= '<td>' . $order->product->role->user->full_name . '</td>';
+    $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
+    $tableHtml .= '<td>' . $order->product->role->user->department_name . '</td>';
+    $tableHtml .= '<td>' . $order->created_at . '</td>';
+    $tableHtml .= '<td>' . $order->quantity . '</td>';
+    $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
+    $tableHtml .= '</tr>';
+}
+
         }
 
         $tableHtml .= '</tbody>';
@@ -109,6 +122,7 @@ class OrderreportController extends Controller
                 'organizations.*'
             )
             ->get();
+
         $tableHtml = '<table class="table" id="reportTable">';
         $tableHtml .= '<thead>';
         $tableHtml .= '<tr>';
@@ -116,6 +130,7 @@ class OrderreportController extends Controller
         $tableHtml .= '<th>Product Name</th>';
         $tableHtml .= '<th>Orderer Name</th>';
         $tableHtml .= '<th>Designation</th>';
+        $tableHtml .= '<th>Department</th>';
         $tableHtml .= '<th>Order Date</th>';
         $tableHtml .= '<th>Quantity</th>';
         $tableHtml .= '<th>Status</th>';
@@ -138,37 +153,38 @@ class OrderreportController extends Controller
             //     $tableHtml .= '</tr>';
             // }
             foreach ($user as $order) {
-                $statusText = '';
-                $badgeClass = '';
+    $statusText = '';
+    $badgeClass = '';
 
-                if ($order->orders_status === '1') {
-                    $statusText = 'Approved';
-                    $badgeClass = 'bg-label-success';
-                } elseif ($order->orders_status === '0') {
-                    $statusText = 'Pending';
-                    $badgeClass = 'bg-label-success';
-                } else {
-                    $statusText = 'Reject';
-                    $badgeClass = 'bg-label-danger';
-                }
+    if ($order->orders_status === '1') {
+        $statusText = 'Approved';
+        $badgeClass = 'bg-label-success';
+    } elseif ($order->orders_status === '0') {
+        $statusText = 'Pending';
+        $badgeClass = 'bg-label-success';
+    } else {
+        $statusText = 'Reject';
+        $badgeClass = 'bg-label-danger';
+    }
 
-                $tableHtml .= '<tr>';
-                $tableHtml .= '<td>' . $order->bill_id . '</td>';
-                $tableHtml .= '<td>' . $order->product_name . '</td>';
-                $tableHtml .= '<td>' . $order->full_name . '</td>';
-                $tableHtml .= '<td>' . $order->role_name . '</td>';
-                $tableHtml .= '<td>' . $order->order_created_at . '</td>';
-                $tableHtml .= '<td>' . $order->order_quantity  . '</td>';
-                $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
-                $tableHtml .= '</tr>';
-            }
+    $tableHtml .= '<tr>';
+    $tableHtml .= '<td>' . $order->bill_id . '</td>';
+    $tableHtml .= '<td>' . $order->product_name . '</td>';
+    $tableHtml .= '<td>' . $order->full_name . '</td>';
+    $tableHtml .= '<td>' . $order->role_name . '</td>';
+    $tableHtml .= '<td>' . $order->department_name . '</td>';
+    $tableHtml .= '<td>' . $order->order_created_at . '</td>';
+    $tableHtml .= '<td>' . $order->order_quantity  . '</td>';
+    $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
+    $tableHtml .= '</tr>';
+}
         }
         $tableHtml .= '</tbody>';
         $tableHtml .= '</table>';
         return $tableHtml;
     }
-
-    public function searchCategory(Request $request)
+    
+     public function searchCategory(Request $request)
     {
         $userId = $request->input('userId');
 
@@ -189,6 +205,7 @@ class OrderreportController extends Controller
         $tableHtml .= '<th>Product Name</th>';
         $tableHtml .= '<th>Orderer Name</th>';
         $tableHtml .= '<th>Designation</th>';
+        $tableHtml .= '<th>Department</th>';
         $tableHtml .= '<th>Order Date</th>';
         $tableHtml .= '<th>Quantity</th>';
         $tableHtml .= '<th>Status</th>';
@@ -212,6 +229,7 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->product->product_name . '</td>';
                 $tableHtml .= '<td>' . $order->product->role->user->full_name .  '</td>';
                 $tableHtml .= '<td>' . $order->product->role->role_name . '</td>';
+                $tableHtml .= '<td>' . $order->product->role->user->department_name . '</td>';
                 $tableHtml .= '<td>' . $order->created_at . '</td>';
                 $tableHtml .= '<td>' . $order->order->orders_quantity . '</td>';
                 // Use the determined badge class
@@ -225,7 +243,7 @@ class OrderreportController extends Controller
 
         return $tableHtml;
     }
-
+    
     public function searchDesignation(Request $request)
     {
         $userId = $request->input('userId');
@@ -257,6 +275,7 @@ class OrderreportController extends Controller
         $tableHtml .= '<th>Product Name</th>';
         $tableHtml .= '<th>Orderer Name</th>';
         $tableHtml .= '<th>Designation</th>';
+        $tableHtml .= '<th>Department</th>';
         $tableHtml .= '<th>Order Date</th>';
         $tableHtml .= '<th>Quantity</th>';
         $tableHtml .= '<th>Status</th>';
@@ -289,6 +308,7 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->product_name . '</td>';
                 $tableHtml .= '<td>' . $order->full_name . '</td>';
                 $tableHtml .= '<td>' . $order->role_name . '</td>';
+                $tableHtml .= '<td>' . $order->department_name . '</td>';
                 $tableHtml .= '<td>' . $order->order_created_at . '</td>';
                 $tableHtml .= '<td>' . $order->order_quantity . '</td>';
                 $tableHtml .= '<td><span class="badge ' . $badgeClass . ' me-1">' . $statusText . '</span></td>';
@@ -302,6 +322,67 @@ class OrderreportController extends Controller
 
         return $tableHtml;
     }
+
+    // public function searchDesignation(Request $request)
+    // {
+    //     $userId = $request->input('userId');
+    //     $user = Order::join('bills', 'orders.bill_id', '=', 'bills.id')
+    //         ->join('products', 'orders.product_id', '=', 'products.id')
+    //         ->join('users', 'bills.user_id', '=', 'users.id')
+    //         ->join('roles', 'users.role_id', '=', 'roles.id')
+    //         ->join('categories', 'products.category_id', '=', 'categories.id')
+    //         ->join('organizations', 'users.organization_id', '=', 'organizations.id')
+
+    //         ->where('roles.id', $userId)
+    //         ->select(
+    //             'orders.*',
+    //             'orders.quantity as order_quantity',
+    //             'orders.created_at as order_created_at',
+    //             'bills.status as bill_status',
+    //             'orders.status as order_status',
+    //             'products.*',
+    //             'users.*',
+    //             'roles.*',
+    //             'categories.*',
+    //             'organizations.*'
+    //         )
+    //         ->get();
+    //     $tableHtml = '<table class="table" id="reportTable">';
+    //     $tableHtml .= '<thead>';
+    //     $tableHtml .= '<tr>';
+    //     $tableHtml .= '<th>Order ID</th>';
+    //     $tableHtml .= '<th>Product Name</th>';
+    //     $tableHtml .= '<th>Orderer Name</th>';
+    //     $tableHtml .= '<th>Designation</th>';
+    //     $tableHtml .= '<th>Order Date</th>';
+    //     $tableHtml .= '<th>Quantity</th>';
+    //     $tableHtml .= '<th>Status</th>';
+    //     $tableHtml .= '</tr>';
+    //     $tableHtml .= '</thead>';
+    //     $tableHtml .= '<tbody class="table-border-bottom-0">';
+    //     if (count($user) == 0) {
+    //         $tableHtml .= '<tr><td colspan="7" class="text-center">No data found</td></tr>';
+    //     } else {
+    //         foreach ($user as $order) {
+    //             $statusText = $order->orders_status === '1' ? 'Approved' : ($order->orders_status === '0' ? 'Pending' : 'Reject');
+    //             $tableHtml .= '<tr>';
+    //             $tableHtml .= '<td>' . $order->bill_id . '</td>';
+    //             $tableHtml .= '<td>' . $order->product_name . '</td>';
+    //             $tableHtml .= '<td>' . $order->full_name . '</td>';
+    //             $tableHtml .= '<td>' . $order->role_name . '</td>';
+    //             $tableHtml .= '<td>' . $order->order_created_at . '</td>';
+    //             $tableHtml .= '<td>' . $order->order_quantity . '</td>';
+    //             $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';
+    //             $tableHtml .= '</tr>';
+    //         }
+    //     }
+
+    //     $tableHtml .= '</tbody>';
+    //     $tableHtml .= '</table>';
+
+
+    //     return $tableHtml;
+    // }
     public function procurement_report()
     {
         $data = array();
@@ -444,6 +525,7 @@ class OrderreportController extends Controller
         $tableHtml .= '<th>Product Name</th>';
         $tableHtml .= '<th>Orderer Name</th>';
         $tableHtml .= '<th>Designation</th>';
+        $tableHtml .= '<th>Department</th>';
         $tableHtml .= '<th>Order Date</th>';
         $tableHtml .= '<th>Quantity</th>';
         $tableHtml .= '<th>Status</th>';
@@ -461,6 +543,7 @@ class OrderreportController extends Controller
                 $tableHtml .= '<td>' . $order->product_name . '</td>';
                 $tableHtml .= '<td>' . $order->full_name . '</td>';
                 $tableHtml .= '<td>' . $order->role_name . '</td>';
+                $tableHtml .= '<td>' . $order->department_name . '</td>';
                 $tableHtml .= '<td>' . $order->order_created_at . '</td>';
                 $tableHtml .= '<td>' . $order->order_quantity . '</td>';
                 $tableHtml .= '<td><span class="badge bg-label-success me-1">' . $statusText . '</span></td>';

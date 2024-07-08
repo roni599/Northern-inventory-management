@@ -51,9 +51,9 @@
                     <label for="organization" class="form-label">Filter By Order Status</label>
                     <select class="form-select" id="orderStatus" name="orderStatus" aria-label="Default select example">
                         <option selected>Select Order Status</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                        <option value="0">Pending</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Rejected</option>
                     </select>
                 </div>
                 <div class="mb-3 col-md-2">
@@ -71,9 +71,10 @@
                         <thead>
                             <tr>
                                 <th>Order ID</th>
-                                <th>Product Name</th>
+                                <th>Product </th>
                                 <th>Orderer Name</th>
                                 <th>Designation</th>
+                                <th>Department</th>
                                 {{-- <th>Order Date</th> --}}
                                 <th>Quantity</th>
                                 <th>Status</th>
@@ -86,12 +87,12 @@
                                     <td>{{ $order->product->product_name }}</td>
                                     <td>{{ $order->bill->user->full_name  }}</td>
                                     <td>{{ $order->bill->user->role->role_name  }}</td>
-                                    {{-- <td>{{ $order->order_created_at  }}</td>  --}}
+                                    <td>{{ $order->bill->user->department_name  }}</td>
                                     <td>{{ $order->quantity }}</td>
                                     @if ($order->status === '0' || $order->status === null)
                                         <td><span class="badge bg-label-warning me-1">Pending</span></td>
                                     @elseif($order->status === '1')
-                                        <td><span class="badge bg-label-success me-1">Appreved</span></td>
+                                        <td><span class="badge bg-label-success me-1">Approved</span></td>
                                     @else
                                         <td><span class="badge bg-label-danger me-1">Rejected</span></td>
                                     @endif

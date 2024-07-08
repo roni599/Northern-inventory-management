@@ -7,32 +7,20 @@ $(document).ready(function () {
         var organizationId = $(this).data('organization_id');
         var phoneNumber = $(this).data('phone_number');
         var address = $(this).data('address');
+        var department_name = $(this).data('department_name');
 
         $('#userid').val(userId);
         $('#fullName').val(fullName);
         $('#email').val(email);
-        // $('#organization').val(organizationId);
         $('#phoneNumber').val(phoneNumber);
         $('#address').val(address);
+        $('#department_name').val(department_name);
         $('#userid_change_pass').val(userId);
-        // $('#organizations').val(organizationId);
 
-        // $(".roles option").filter(function () {
-        //     return $(this).text() === roleId;
-        // }).attr("selected", "selected");
-        // $(".roles option").filter(function () {
-        //     return $(this).text() === roleId;
-        // }).prop("selected", true);
-
-        // $(".roles option").prop("selected", false); // Deselect all options initially
-        // $(".roles option").filter(function () {
-        //     return $(this).text() === roleId;
-        // }).prop("selected", true);
-
+        //for role
         var selectedOption = $(".roles option").filter(function () {
             return $(this).text() === roleId;
         });
-
         if (selectedOption.length === 0) {
             // If no matching option, add "No Role Assigned" option dynamically
             $(".roles").append('<option value="" selected>No Role Assigned</option>');
@@ -41,43 +29,30 @@ $(document).ready(function () {
             selectedOption.prop('selected', true);
         }
 
-        // Set the selected option for #categoryfor
-        // $(".organizations option").filter(function () {
-        //     return $(this).text().trim() === organizationId;
-        // }).prop("selected", true);
-
+        //for organizations
         var selectedOption = $(".organizations option").filter(function () {
             return $(this).text().trim() === organizationId;
         });
-
         if (selectedOption.length === 0) {
-            // If no matching option, add a new option dynamically
             $(".organizations").append('<option value="" selected>No organization Assigned</option>');
         } else {
-            // If there is a matching option, select it
             selectedOption.prop('selected', true);
         }
+
+        //for department
+        var selectedOption = $(".department option").filter(function () {
+            return $(this).text().trim() === department_name;
+        });
+        if (selectedOption.length === 0) {
+            $(".department").append('<option value="" selected>No Department Assigned</option>');
+        } else {
+            selectedOption.prop('selected', true);
+        }
+
         var image = $(this).data('image');
         $('#imagePathDisplay').text(image);
     });
 
-
-
-    // $(document).on('click', '#userTableDiv .pagination a', function (event) {
-    //     event.preventDefault();
-    //     var baseUrl = window.location.href.split('?')[0];
-    //     var url = $(this).attr('href');
-    //     $.ajax({
-    //         url: baseUrl,
-    //         data: { page: url.split('=')[1] },
-    //         success: function (data) {
-    //             $('#categoryTableDiv').html($(data).find('#categoryTableDiv').html());
-    //         },
-    //         error: function (xhr, status, error) {
-    //             console.error(xhr.responseText);
-    //         }
-    //     });
-    // });
     $(document).on('click', '#userTableDiv .pagination a', function (event) {
         event.preventDefault();
         
@@ -94,6 +69,7 @@ $(document).ready(function () {
             }
         });
     });
+    
     $(document).on('submit', '#userUpdate', function (event) {
         event.preventDefault();
 

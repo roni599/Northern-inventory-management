@@ -6,6 +6,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
 
+
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Order /</span> Order List</h4>
 
             <div class="d-flex mb-3 gap-2">
@@ -36,14 +37,14 @@
                                 <th>Order ID</th>
                                 <th>Name</th>
                                 <th>Designation</th>
+                                <th>Department</th>
                                 <th>Assigned By</th>
                                 <th>Order Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-
-                        <tbody class="table-border-bottom-0">
+                         <tbody class="table-border-bottom-0">
                             @foreach ($bills as $key => $bill)
                                 @if ($bill->assign_for >= '0')
                                     <tr>
@@ -54,6 +55,11 @@
                                             <td>User Deleted</td>
                                         @endif
                                         <td>{{ $bill->user->role->role_name }}</td>
+                                        @if($bill->user->department_name!==null)
+                                        <td>{{ $bill->user->department_name }}</td>
+                                        @else
+                                        <td>No Department Assign</td>
+                                        @endif
                                         @if ($bill->assign_for == 1)
                                             <td>Admin</td>
                                         @else
@@ -66,14 +72,14 @@
                                             {{ \Carbon\Carbon::parse($bill->created_at)->timezone('Asia/Dhaka')->format('h:i:s A') }}
                                         </td>
                                         @if ($bill->status == 1)
-                                            <td class="text-danger">Pendding</td>
+                                            <td class="text-danger">Pending</td>
                                         @elseif ($bill->status == 2)
                                             <td class="text-success">Approved</td>
                                         @elseif($bill->status == 3)
                                             <td class="text-warning">Rejected</td>
                                         @endif
                                         @if ($bill->user_id !== null)
-                                            <td class="d-flex">
+                                            <td>
                                                 <a href="{{ route('orders.details', ['orderId' => $bill->id]) }}"><i
                                                 class="bx bxs-show me-1 bg-warning p-2 rounded-2 text-white"></i></a>
                                             </td>

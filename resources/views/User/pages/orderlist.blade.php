@@ -43,10 +43,10 @@
                                 @if ($bill->user_id && $bill->status != 0)
                                     <tr>
                                         <td>{{ $bill->id }}</td>
-                                        {{-- <td>
-                                            Date : {{ $bill->created_at->format('Y-m-d') }}<br>
-                                            Time : {{ $bill->created_at->format('H:i:s') }}
-                                        </td> --}}
+                                        <!--<td>-->
+                                        <!--   Date : {{ $bill->created_at->format('Y-m-d') }}<br>-->
+                                        <!--    Time : {{ $bill->created_at->format('H:i:s') }}-->
+                                        <!--</td>-->
                                         <td>
                                             Date:
                                             {{ \Carbon\Carbon::parse($bill->created_at)->timezone('Asia/Dhaka')->format('Y-m-d') }}<br>
@@ -62,9 +62,10 @@
                                         @elseif($bill->status == 3)
                                             <td class="text-danger">Rejected</td>
                                         @endif
-                                        <td class="d-flex">
+                                        <td>
                                             <a href="{{ route('user.order_details', ['orderId' => $bill->id]) }}"><i
                                                     class="bx bxs-show me-1 bg-warning p-2 rounded-2 text-white"></i></a>
+
                                             {{-- <a href="#"><i
                                                     class="bx bx-edit-alt me-1 bg-success p-2 rounded-2 text-white"></i></a>
                                             <a href="#"><i

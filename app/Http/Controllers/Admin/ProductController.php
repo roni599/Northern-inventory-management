@@ -340,6 +340,7 @@ class ProductController extends Controller
         $tableHtml .= '<th>User ID</th>';
         $tableHtml .= '<th>Full Name</th>';
         $tableHtml .= '<th>Role</th>';
+        $tableHtml .= '<th>Department Name</th>';
         $tableHtml .= '<th>Email</th>';
         $tableHtml .= '<th>Phone</th>';
         $tableHtml .= '<th>Organization Name</th>';
@@ -355,6 +356,7 @@ class ProductController extends Controller
             $tableHtml .= '<td>' . ($key + 1) . '</td>';
             $tableHtml .= '<td>' . $user->full_name . '</td>';
             $tableHtml .= '<td>' . ($user->role_id === null ? 'No Role Assigned' : $user->role->role_name) . '</td>';
+            $tableHtml .= '<td>' . ($user->role_id === null ? 'No Department Assigned' : $user->department_name) . '</td>';
             $tableHtml .= '<td>' . $user->email . '</td>';
             $tableHtml .= '<td>' . $user->phone . '</td>';
             $tableHtml .= '<td>' . ($user->organization === null ? 'No organization Assigned' : $user->organization->organization_name) . '</td>';

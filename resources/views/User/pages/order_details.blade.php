@@ -26,26 +26,46 @@
                             <th>Product Category</th>
                             <th>Quantity</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-
-
                     <tbody class="table-border-bottom-0">
                         @foreach ($orders as $order)
                             <tr>
                                 <td>{{ $order->product->product_name }}</td>
-                                <td>
-                                    {{ $order->product->category->category_name }}
-                                </td>
+                                <td>{{ $order->product->category->category_name }}</td>
                                 <td>{{ $order->quantity }}</td>
-
-                                @if ($order->status == 0)
-                                    <td class="badge bg-label-danger mt-2">Pending</td>
-                                @elseif($order->status == 1)
-                                    <td class="badge bg-label-success mt-2">Approved</td>
-                                @elseif($order->status == 2)
-                                <td class="badge bg-label-danger mt-2">Rejected</td>
-                                @endif
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if ($order->status == 0)
+                                            <span class="badge bg-label-danger">Pending</span>
+                                        @elseif($order->status == 1)
+                                            <span class="badge bg-label-success">Approved</span>
+                                        @elseif($order->status == 2)
+                                            <span class="badge bg-label-danger">Rejected</span>
+                                        @elseif($order->status == 3)
+                                            <span class="badge bg-label-success">Received</span>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if ($order->status == 0)
+                                            <span class="badge bg-label-danger">waiting for <br> <br> admin approved</span>
+                                        @elseif($order->status == 1)
+                                            {{-- <span class="badge bg-label-success">Approved</span> --}}
+                                            <a href="{{ route('user.productreceived', ['orderId' => $order->id]) }}">
+                                                <i class="bx bx-check me-1 bg-success p-2 rounded-2 text-white"></i></a>
+                                        @elseif($order->status == 2)
+                                            <span class="badge bg-label-danger">product rejected by admin</span>
+                                        @elseif($order->status == 3)
+                                            <span class="badge bg-label-danger">you have no action</span>
+                                        @endif
+                                    </div>
+                                    {{-- <a href="{{ route('user.productreceived', ['orderId' => $order->id]) }}">
+                                        <i class="bx bx-check me-1 bg-success p-2 rounded-2 text-white"></i>
+                                    </a> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

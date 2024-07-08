@@ -36,12 +36,16 @@ Route::get('/user/order_list', [UserAuthController::class, 'order_list'])->name(
 Route::get('/user/order_details', [UserAuthController::class, 'order_details'])->name('user.order_details')->middleware('isLoggedIn');
 Route::delete('/user/delete-order', [UserAuthController::class, 'deleteOrder'])->name('user.delete_order')->middleware('isLoggedIn');
 Route::get('/user/search/orders', [UserAuthController::class, 'searchOrdersByDesignation'])->name('search.orders')->middleware('isLoggedIn');
+Route::get('user/productreceived/{orderId}', [UserAuthController::class, 'productReceived'])->name('user.productreceived');
+
+
 Route::put('/user/edit', [UserController::class, 'userEdit'])->name('user.edit')->middleware('isLoggedIn');
 
 Route::get('/user/view_profile', [UserAccountSettingsController::class, 'view_profile'])->name('user.view_profile')->middleware('isLoggedIn');
 Route::get('/user/edit_profile', [UserAccountSettingsController::class, 'edit_profile'])->name('user.edit_profile')->middleware('isLoggedIn');
 Route::post('/user/store_profile', [UserAccountSettingsController::class, 'store_profile'])->name('user.store_profile')->middleware('isLoggedIn');
 Route::post('/user/passchange', [UserAccountSettingsController::class, 'userPasschange'])->name('user.passchange')->middleware('isLoggedIn');
+
 
 // Admin Routes 
 Route::get('admin/login', [AuthController::class, 'login'])->name('admin.login')->middleware('adminAlreadyLoggedIn');

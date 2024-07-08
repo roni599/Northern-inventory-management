@@ -127,7 +127,7 @@
                         <option selected>Select User</option>
                         @foreach ($users as $key => $userr)
                             @if ($userr->id != 1)
-                                <option value="{{ $userr->id }}">
+                                <option value="{{ $userr->id}}">
                                     {{ $userr->full_name }}--{{ $userr->role->role_name }}</option>
                             @endif
                         @endforeach

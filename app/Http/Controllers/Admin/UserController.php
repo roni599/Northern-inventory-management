@@ -17,7 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class UserController extends Controller
 {
 
-    public function userList()
+  public function userList()
     {
         $data = array();
         if (Session::has('loginIdAdmin')) {
@@ -26,7 +26,8 @@ class UserController extends Controller
         $user_id = Session::get('loginIdAdmin');
         $user = User::where('id', $user_id)->first();
         
-        $users = User::latest()->paginate(50);
+        // $users = User::latest()->paginate(50);
+        $users = User::latest()->paginate(10);
         $roles = Role::all();
         $organizations = Organization::all();
         return view('Admin.pages.userlist', compact('users', 'roles', 'organizations','data','user'));
@@ -52,6 +53,7 @@ class UserController extends Controller
             'role' => 'required|in:1,2,3,4,5,6,7,8,9,10',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
+            'department_name' => 'required|string',
             'organization' => 'required|in:1,2,3,4,5,6,7,8,9,10',
             'phoneNumber' => 'required|string|max:20',
             'address' => 'nullable|string|max:255',
@@ -65,6 +67,7 @@ class UserController extends Controller
         $user->organization_id = $request->organization;
         $user->phone = $request->phoneNumber;
         $user->address = $request->address;
+        $user->department_name = $request->department_name;
 
         $imageName = '';
         if ($image = $request->file('image')) {
@@ -97,6 +100,7 @@ class UserController extends Controller
             $user->update([
                 'full_name' => $request->fullName,
                 'role_id' => $request->role,
+                'department_name' => $request->department_name,
                 'email' => $request->email,
                 'organization_id' => $request->organization,
                 'phone' => $request->phoneNumber,

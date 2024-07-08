@@ -9,9 +9,6 @@
 
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">User</span> / Create User</h4>
 
-
-
-
             <!-- Basic Bootstrap Table -->
             <div class="row">
                 <div class="col-md-12">
@@ -193,7 +190,7 @@
                                     <div class="mb-3 col-md-6">
                                         <label for="fullName" class="form-label">Full Name</label>
                                         <input class="form-control" type="text" id="fullName" name="fullName"
-                                            value="{{ old('fullName') }}" autofocus />
+                                            value="{{ old('fullName') }}" autofocus placeholder="Full Name"/>
                                     </div>
                                     
                                     <!-- Role -->
@@ -204,14 +201,45 @@
                                             <option selected>Select Role</option>
                                             @foreach ($roles as $key => $role)
                                                 <option value="{{ $role->id }}"
-                                                   
                                                     {{ old('role') == $role->id ? 'selected' : '' }}>
                                                     {{ $role->role_name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- Email -->
+                                    <!-- Department_name -->
+                                    <div class="mb-3 col-md-12">
+                                        <label for="department_name" class="form-label">Department Name</label>
+                                        <select class="form-select" id="department_name" name="department_name" aria-label="Default select example">
+                                            <option value="" {{ old('department_name') == '' ? 'selected' : '' }}>Select Department</option>
+                                            <option value="Admin" {{ old('department_name') == 'Admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="LID" {{ old('department_name') == 'LID' ? 'selected' : '' }}>LID</option>
+                                            <option value="IT" {{ old('department_name') == 'IT' ? 'selected' : '' }}>IT</option>
+                                            <option value="Register Office" {{ old('department_name') == 'Register Office' ? 'selected' : '' }}>Register Office</option>
+                                            <option value="VC Office" {{ old('department_name') == 'VC Office' ? 'selected' : '' }}>VC Office</option>
+                                            <option value="Treasure Office" {{ old('department_name') == 'Treasure Office' ? 'selected' : '' }}>Treasure Office</option>
+                                            <option value="HRD" {{ old('department_name') == 'HRD' ? 'selected' : '' }}>HRD</option>
+                                            <option value="ACAD" {{ old('department_name') == 'ACAD' ? 'selected' : '' }}>ACAD</option>
+                                            <option value="Exam" {{ old('department_name') == 'Exam' ? 'selected' : '' }}>Exam</option>
+                                            <option value="FAD" {{ old('department_name') == 'FAD' ? 'selected' : '' }}>FAD</option>
+                                            <option value="Maintenance" {{ old('department_name') == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
+                                            <option value="AID" {{ old('department_name') == 'AID' ? 'selected' : '' }}>AID</option>
+                                            <option value="MPB" {{ old('department_name') == 'MPB' ? 'selected' : '' }}>MPB</option>
+                                            <option value="PRD" {{ old('department_name') == 'PRD' ? 'selected' : '' }}>PRD</option>
+                                            <option value="CPPC" {{ old('department_name') == 'CPPC' ? 'selected' : '' }}>CPPC</option>
+                                            <option value="CSE" {{ old('department_name') == 'CSE' ? 'selected' : '' }}>CSE</option>
+                                            <option value="EEE" {{ old('department_name') == 'EEE' ? 'selected' : '' }}>EEE</option>
+                                            <option value="Textile" {{ old('department_name') == 'Textile' ? 'selected' : '' }}>Textile</option>
+                                            <option value="Mechanical" {{ old('department_name') == 'Mechanical' ? 'selected' : '' }}>Mechanical</option>
+                                            <option value="Civil" {{ old('department_name') == 'Civil' ? 'selected' : '' }}>Civil</option>
+                                            <option value="DBA" {{ old('department_name') == 'DBA' ? 'selected' : '' }}>DBA</option>
+                                            <option value="Bangla" {{ old('department_name') == 'Bangla' ? 'selected' : '' }}>Bangla</option>
+                                            <option value="English" {{ old('department_name') == 'English' ? 'selected' : '' }}>English</option>
+                                            <option value="Law" {{ old('department_name') == 'Law' ? 'selected' : '' }}>Law</option>
+                                            <option value="Pharmacy" {{ old('department_name') == 'Pharmacy' ? 'selected' : '' }}>Pharmacy</option>
+                                            <option value="Public Health" {{ old('department_name') == 'Public Health' ? 'selected' : '' }}>Public Health</option>
+                                        </select>
+                                    </div>
                                     <div class="mb-3 col-md-6">
                                         <label for="email" class="form-label">E-mail</label>
                                         <input class="form-control" type="text" id="email" name="email"
@@ -273,4 +301,24 @@
 
             <div class="content-backdrop fade"></div>
         </div>
+        {{-- <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const roleSelect = document.getElementById('role');
+                const department_field = document.getElementById('department_field');
+        
+                function toggleDepartmentField() {
+                    const selectedRole = roleSelect.options[roleSelect.selectedIndex].text;
+                    if (selectedRole.toLowerCase() === 'faculty') {
+                        department_field.style.display = 'block';
+                    } else {
+                        department_field.style.display = 'none';
+                    }
+                }
+        
+                roleSelect.addEventListener('change', toggleDepartmentField);
+        
+                // Initial check in case a role is already selected
+                toggleDepartmentField();
+            });
+        </script> --}}
     @endSection

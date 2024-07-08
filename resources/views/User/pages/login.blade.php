@@ -75,7 +75,7 @@
                             @endif
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email or Usernme</label>
+                                <label for="email" class="form-label">Email or Username</label>
                                 <input type="text" class="form-control" id="email" name="email_username"
                                     placeholder="Enter your email or username" autofocus />
                             </div>

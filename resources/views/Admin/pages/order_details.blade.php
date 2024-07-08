@@ -18,8 +18,10 @@
                     <br>
                     <span class="d-block fs-5">Orderer Name: {{ $bill[0]->user->full_name }}</span>
                     <span class="d-block fs-5">Designation: {{ $bill[0]->user->role->role_name }}</span>
-                    <span class="d-block fs-5">Order Date: {{ $bill[0]->created_at->addDay()->setTimezone('Asia/Dhaka')->format('Y-m-d') }}<br>
-                      <span class="d-block fs-5">Order Time: {{ $bill[0]->created_at->setTimezone('Asia/Dhaka')->format('h:i:s A') }}</span>                      
+                    <span class="d-block fs-5">Order Date:
+                        {{ $bill[0]->created_at->addDay()->setTimezone('Asia/Dhaka')->format('Y-m-d') }}<br>
+                        <span class="d-block fs-5">Order Time:
+                            {{ $bill[0]->created_at->setTimezone('Asia/Dhaka')->format('h:i:s A') }}</span>
                 @endif
                 <br>
                 @foreach ($orders as $key => $order)
@@ -72,6 +74,11 @@
                                         <label for="last_order_date" class="form-label">Status</label>
                                         <a href="#" class="badge bg-label-danger">Rejected</a>
                                     </div>
+                                @elseif($order->status === '3')
+                                    <div class="mb-3 col-md-1">
+                                        <label for="last_order_date" class="form-label">Status</label>
+                                        <a href="#" class="badge bg-label-success mt-1">Received</a>
+                                    </div>
                                 @endif
                             </div>
                             @if ($order->status === '0' || $order->status === null)
@@ -92,7 +99,7 @@
                         <label for="textarea">Comments</label>
                         <textarea class="form-control mt-0" name="" id="" cols="30" rows="3" readonly>{{ $orders[0]->comments }}</textarea>
                     </div>
-                    @else
+                @else
                 @endif
             </div>
 
